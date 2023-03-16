@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Image Recognition Web Application using the Azure Cognitive Services</title>
+</head>
+<body>
+  <h1>Image Recognition Web App</h1>
+  <form id="uploadForm" method="post" enctype="multipart/form-data">
+    <input type="file" id="imageFile" name="image" accept="image/*">
+    <button type="submit">Recognize</button>
+  </form>
+  <br>
+  <img id="imageDisplay" style="max-width: 500px">
+  <div id="descriptionDisplay"></div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(function() {
+      // Submit form on file selection
+      $('#imageFile').on('change', function() {
+        $('#uploadForm').submit();
+      });
+
+      // Handle form submit
+      $('#uploadForm').on('submit', function(e) {
+        e.preventDefault();
+        recognizeImage();
+      });
+    });
+
+    function recognizeImage() {
+      var formData = new FormData();
+      var fileInput = document.getElementById('imageFile');
+      formData.append('image', fileInput.files[0]);
+
+      $.ajax({
+        url: 'https://YOUR_API_ENDPOINT/vision/v3.2/analyze?visualFeatures=Description',
+        beforeSend: function(xhrObj){
+          xhrObj.setRequestHeader("Content-Type","application/octet-stream");
+          xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","YOUR_API_KEY");
+        },
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+      })
+      .done(function(data) {
+        // Display the image
+        var imageURL = URL.createObjectURL(fileInput.files[0]);
+        $('#imageDisplay').attr('src', imageURL);
+
+        // Display the description
+        var description = data.description;
+        var descriptionText = "<p><strong>Description: </strong>" + description.captions[0].text + "</p>";
+        descriptionText += "<p><strong>Tags: </strong>" + description.tags.join(", ") + "</p>";
+        $('#descriptionDisplay').html(descriptionText);
+      })
+      .fail(function(jqXHR, textStatus, errorThrown) {
+        alert('Error: ' + textStatus);
+      });
+    }
+  </script>
+</body>
+</html>
