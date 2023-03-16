@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,44 +7,28 @@
 </head>
 <body>
   <h1>Image Recognition Web App</h1>
-  <form id="uploadForm" method="post" enctype="multipart/form-data">
-    <input type="file" id="imageFile" name="image" accept="image/*">
-    <button type="submit">Recognize</button>
-  </form>
+  <input type="file" id="imageFile" accept="image/*">
+  <button onclick="recognizeImage()">Recognize</button>
   <br>
   <img id="imageDisplay" style="max-width: 500px">
   <div id="descriptionDisplay"></div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
-    $(function() {
-      // Submit form on file selection
-      $('#imageFile').on('change', function() {
-        $('#uploadForm').submit();
-      });
-
-      // Handle form submit
-      $('#uploadForm').on('submit', function(e) {
-        e.preventDefault();
-        recognizeImage();
-      });
-    });
-
     function recognizeImage() {
       var formData = new FormData();
       var fileInput = document.getElementById('imageFile');
       formData.append('image', fileInput.files[0]);
 
       $.ajax({
-        url: 'https://YOUR_API_ENDPOINT/vision/v3.2/analyze?visualFeatures=Description',
+        url: 'https://analyzeimage-leivadaros.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures=Description',
         beforeSend: function(xhrObj){
           xhrObj.setRequestHeader("Content-Type","application/octet-stream");
-          xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","YOUR_API_KEY");
+          xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","a03ab615821a4f78ba4afce0e0c71ede");
         },
         type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
+        data: fileInput.files[0],
+        processData: false
       })
       .done(function(data) {
         // Display the image
