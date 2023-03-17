@@ -96,4 +96,6 @@ In this tutorial, we have seen how to create a simple image recognition web appl
 
 This example can be extended to support more advanced scenarios, such as object detection or face recognition, using the other features provided by the Vision API or other Cognitive Services.
 
-We hope that this tutorial has been helpful for you to understand how to use Azure Cognitive Services to build intelligent applications. If you have any questions or feedback, please let me know by opening a new issue.
+I hope that this tutorial has been helpful for you to understand how to use Azure Cognitive Services to build intelligent applications. If you have any questions or feedback, please let me know by opening a new issue.
+
+![a group of raccoons](https://user-images.githubusercontent.com/16403754/225921803-cd376bfb-58aa-48ca-8a37-eef337ae39f0.PNG)
