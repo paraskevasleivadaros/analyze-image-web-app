@@ -35,77 +35,78 @@ Open your favorite text editor and create a new file called `index.html`. Copy t
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title>Image Recognition Web Application using Azure Cognitive Services</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <title>Image Recognition Web Application using Azure Cognitive Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 
 <body>
-  <div class="container mt-5">
-    <h1 class="text-center mb-5">Image Recognition Web App</h1>
-    <div class="row justify-content-center mb-3">
-      <div class="col-12 col-md-8 col-lg-6">
-        <input type="file" class="form-control-file" id="imageFile" accept="image/*">
-      </div>
-      <div class="col-12 col-md-2">
-        <button class="btn btn-primary w-100" onclick="recognizeImage()">Recognize</button>
-      </div>
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">Image Recognition Web App</h1>
+        <div class="row justify-content-center mb-3">
+            <div class="col-12 col-md-8 col-lg-6">
+                <input type="file" class="form-control-file" id="imageFile" accept="image/*">
+            </div>
+            <div class="col-12 col-md-2">
+                <button class="btn btn-primary w-100" onclick="recognizeImage()">Recognize</button>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-5">
+            <div class="col-12 col-md-8 col-lg-6">
+                <img id="imageDisplay" class="img-fluid">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div id="descriptionDisplay"></div>
+            </div>
+            <div class="col-12 col-md-2">
+                <a href="https://github.com/paraskevasleivadaros/analyze-image-web-app"
+                    class="btn btn-outline-primary w-100" target="_blank">Source code</a>
+            </div>
+        </div>
     </div>
-    <div class="row justify-content-center mb-5">
-      <div class="col-12 col-md-8 col-lg-6">
-        <img id="imageDisplay" class="img-fluid">
-      </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-12 col-md-8 col-lg-6">
-        <div id="descriptionDisplay"></div>
-      </div>
-      <div class="col-12 col-md-2">
-        <a href="https://github.com/paraskevasleivadaros/analyze-image-web-app" class="btn btn-outline-primary w-100"
-          target="_blank">Source code</a>
-      </div>
-    </div>
-  </div>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script>
-    function recognizeImage() {
-      var formData = new FormData();
-      var fileInput = document.getElementById('imageFile');
-      formData.append('image', fileInput.files[0]);
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        function recognizeImage() {
+            var formData = new FormData();
+            var fileInput = document.getElementById('imageFile');
+            formData.append('image', fileInput.files[0]);
 
-      $.ajax({
-        url: 'https://analyzeimage-leivadaros.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures=Description',
-        beforeSend: function (xhrObj) {
-          xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
-          xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "a03ab615821a4f78ba4afce0e0c71ede");
-        },
-        type: "POST",
-        data: fileInput.files[0],
-        processData: false
-      })
-        .done(function (data) {
-          // Display the image
-          var imageURL = URL.createObjectURL(fileInput.files[0]);
-          $('#imageDisplay').attr('src', imageURL);
+            $.ajax({
+                url: 'https://analyzeimage-leivadaros.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures=Description',
+                beforeSend: function (xhrObj) {
+                    xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
+                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "a03ab615821a4f78ba4afce0e0c71ede");
+                },
+                type: "POST",
+                data: fileInput.files[0],
+                processData: false
+            })
+                .done(function (data) {
+                    // Display the image
+                    var imageURL = URL.createObjectURL(fileInput.files[0]);
+                    $('#imageDisplay').attr('src', imageURL);
 
-          // Display the description
-          var description = data.description;
-          var descriptionText = "<p><strong>Description: </strong>" + description.captions[0].text + "</p>";
-          descriptionText += "<p><strong>Tags: </strong>" + description.tags.join(", ") + "</p>";
-          descriptionText += "<p><strong>Accuracy: </strong>" + (description.captions[0].confidence * 100).toFixed(2) + "%</p>";
-          $('#descriptionDisplay').html(descriptionText);
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-          alert('Error: ' + textStatus);
-        });
-    }
-  </script>
-  <footer class="mt-5 text-center">
-  </footer>
+                    // Display the description
+                    var description = data.description;
+                    var descriptionText = "<p><strong>Description: </strong>" + description.captions[0].text + "</p>";
+                    descriptionText += "<p><strong>Tags: </strong>" + description.tags.join(", ") + "</p>";
+                    descriptionText += "<p><strong>Accuracy: </strong>" + (description.captions[0].confidence * 100).toFixed(2) + "%</p>";
+                    $('#descriptionDisplay').html(descriptionText);
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus);
+                });
+        }
+    </script>
+    <footer class="mt-5 text-center">
+    </footer>
 </body>
+
 </html>
 ```
 
