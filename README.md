@@ -77,10 +77,10 @@ Open your favorite text editor and create a new file called `index.html`. Copy t
             formData.append('image', fileInput.files[0]);
 
             $.ajax({
-                url: 'https://analyzeimage-leivadaros.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures=Description',
+                url: 'https://<your-cognitive-services-endpoint>/vision/v3.2/analyze?visualFeatures=Description',
                 beforeSend: function (xhrObj) {
                     xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
-                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "a03ab615821a4f78ba4afce0e0c71ede");
+                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "<your-cognitive-services-subscription-key>");
                 },
                 type: "POST",
                 data: fileInput.files[0],
