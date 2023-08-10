@@ -16,6 +16,37 @@
             cursor: pointer;
             background-color: #f9f9f9;
         }
+        
+        #loadingAnimation {
+            display: none;
+        }
+        
+        .lds-ring {
+            display: inline-block;
+            position: relative;
+            width: 64px;
+            height: 64px;
+        }
+        .lds-ring div {
+            box-sizing: border-box;
+            display: block;
+            position: absolute;
+            width: 51px;
+            height: 51px;
+            margin: 6px;
+            border: 6px solid #3498db;
+            border-radius: 50%;
+            animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            border-color: #3498db transparent transparent transparent;
+        }
+        @keyframes lds-ring {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
@@ -30,6 +61,8 @@
                     <span>Drag and drop an image here or click to choose a file</span>
                     <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display: none;" onchange="recognizeImage()">
                 </div>
+                <!-- Loading animation -->
+                <div id="loadingAnimation" class="lds-ring"><div></div><div></div><div></div><div></div></div>
             </div>
         </div>
         
@@ -61,6 +94,10 @@
             var formData = new FormData();
             var fileInput = document.getElementById('imageFile');
             formData.append('image', fileInput.files[0]);
+            
+            // Show loading animation and hide file input container
+            document.getElementById('fileInputContainer').style.display = 'none';
+            document.getElementById('loadingAnimation').style.display = 'inline-block';
 
             $.ajax({
                 url: 'https://analyzeimage-leivadaros.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures=Description',
@@ -83,9 +120,16 @@
                 descriptionText += "<p><strong>Tags: </strong>" + description.tags.join(", ") + "</p>";
                 descriptionText += "<p><strong>Accuracy: </strong>" + (description.captions[0].confidence * 100).toFixed(2) + "%</p>";
                 $('#descriptionDisplay').html(descriptionText);
+
+                // Hide loading animation and show file input container
+                document.getElementById('loadingAnimation').style.display = 'none';
+                document.getElementById('fileInputContainer').style.display = 'block';
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 alert('Error: ' + textStatus);
+                // Hide loading animation and show file input container
+                document.getElementById('loadingAnimation').style.display = 'none';
+                document.getElementById('fileInputContainer').style.display = 'block';
             });
         }
     </script>
