@@ -60,6 +60,19 @@
                 transform: rotate(360deg);
             }
         }
+        
+        /* Add margin to the source code button */
+        #sourceCodeButton {
+            margin-top: 10px;
+        }
+        
+        /* Center the recognized image */
+        #recognizedImageContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
     </style>
 </head>
 
@@ -82,7 +95,9 @@
         <div class="row justify-content-center mb-5" id="recognizedImageSection">
             <div class="col-12 col-md-8 col-lg-6">
                 <!-- Display recognized image -->
-                <img id="imageDisplay" class="img-fluid" alt="Recognized Image">
+                <div id="recognizedImageContainer">
+                    <img id="imageDisplay" class="img-fluid" alt="Recognized Image">
+                </div>
             </div>
         </div>
         
@@ -98,9 +113,10 @@
                 <!-- Link to source code on GitHub -->
                 <footer class="mt-5 text-center">
                     Design and Development by <a href="https://leivadaros.dev/" target="_blank">Paraskevas Leivadaros</a>
+                    <!-- Add margin to the source code button -->
                     <br>
                     <a href="https://github.com/paraskevasleivadaros/analyze-image-web-app"
-                        class="btn btn-outline-primary w-100" target="_blank">Source Code</a>
+                        class="btn btn-outline-primary w-100" target="_blank" id="sourceCodeButton">View Source Code</a>
                 </footer>
             </div>
         </div>
