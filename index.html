@@ -16,8 +16,16 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            background-color: #f4f4f4;
         }
-        
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
         #fileInputContainer {
             border: 2px dashed #ccc;
             padding: 20px;
@@ -25,130 +33,54 @@
             cursor: pointer;
             background-color: #f9f9f9;
         }
-        
-        #loadingAnimation {
-            display: none;
-        }
-        
-        #recognizedImageSection {
-            display: none;
-        }
-        
-        .lds-ring {
-            display: inline-block;
-            position: relative;
-            width: 64px;
-            height: 64px;
-        }
-        .lds-ring div {
-            box-sizing: border-box;
-            display: block;
-            position: absolute;
-            width: 51px;
-            height: 51px;
-            margin: 6px;
-            border: 6px solid #3498db;
-            border-radius: 50%;
-            animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-            border-color: #3498db transparent transparent transparent;
-        }
-        @keyframes lds-ring {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+
+        /* Rest of your existing styles... */
+
+        footer {
+            margin-top: 20px;
         }
     </style>
 </head>
 
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-5">Image Recognition Web App</h1>
-        
-        <div class="row justify-content-center mb-3">
-            <div class="col-12 col-md-8 col-lg-6">
-                <!-- Container for the file input with drag-and-drop functionality -->
-                <div id="fileInputContainer" onclick="document.getElementById('imageFile').click()">
-                    <span>Drag and drop an image here or click to choose a file</span>
-                    <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display: none;" onchange="recognizeImage()">
-                </div>
-                <!-- Loading animation -->
-                <div id="loadingAnimation" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        <h1 class="text-center mb-5">Image Recognition</h1>
+
+        <div class="text-center mb-3">
+            <!-- Container for the file input with drag-and-drop functionality -->
+            <div id="fileInputContainer" onclick="document.getElementById('imageFile').click()">
+                <span>Click to choose a file</span>
+                <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display: none;"
+                    onchange="recognizeImage()">
+            </div>
+            <!-- Loading animation -->
+            <div id="loadingAnimation" class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
         </div>
-        
-        <div class="row justify-content-center mb-5" id="recognizedImageSection">
-            <div class="col-12 col-md-8 col-lg-6">
-                <!-- Display recognized image -->
-                <img id="imageDisplay" class="img-fluid" alt="Recognized Image">
-            </div>
+
+        <div class="text-center mb-5" id="recognizedImageSection">
+            <!-- Display recognized image -->
+            <img id="imageDisplay" class="img-fluid" alt="Recognized Image">
         </div>
-        
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-6">
-                <!-- Display recognized image description -->
-                <div id="descriptionDisplay"></div>
-            </div>
-            <div class="col-12 col-md-2">
-                <!-- Link to source code on GitHub -->
-                <a href="https://github.com/paraskevasleivadaros/analyze-image-web-app"
-                    class="btn btn-outline-primary w-100" target="_blank">View Source Code</a>
-            </div>
+
+        <div class="text-center">
+            <!-- Display recognized image description -->
+            <div id="descriptionDisplay"></div>
+        </div>
+
+        <div class="text-center mt-3">
+            <!-- Link to source code on GitHub -->
+            <a href="https://github.com/paraskevasleivadaros/analyze-image-web-app"
+                class="btn btn-outline-primary" target="_blank">Source Code</a>
         </div>
     </div>
 
-    <!-- Link to jQuery and Bootstrap JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script>
-        function recognizeImage() {
-            var formData = new FormData();
-            var fileInput = document.getElementById('imageFile');
-            formData.append('image', fileInput.files[0]);
-            
-            // Show loading animation and hide file input container
-            document.getElementById('fileInputContainer').style.display = 'none';
-            document.getElementById('loadingAnimation').style.display = 'inline-block';
+    <!-- Rest of your existing code... -->
 
-            $.ajax({
-                url: 'https://analyzeimage-leivadaros.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures=Description',
-                beforeSend: function (xhrObj) {
-                    xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
-                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "a03ab615821a4f78ba4afce0e0c71ede");
-                },
-                type: "POST",
-                data: fileInput.files[0],
-                processData: false
-            })
-            .done(function (data) {
-                // Display the image
-                var imageURL = URL.createObjectURL(fileInput.files[0]);
-                $('#imageDisplay').attr('src', imageURL);
-
-                // Display the description
-                var description = data.description;
-                var descriptionText = "<p><strong>Description: </strong>" + description.captions[0].text + "</p>";
-                descriptionText += "<p><strong>Tags: </strong>" + description.tags.join(", ") + "</p>";
-                descriptionText += "<p><strong>Accuracy: </strong>" + (description.captions[0].confidence * 100).toFixed(2) + "%</p>";
-                $('#descriptionDisplay').html(descriptionText);
-
-                // Hide loading animation and show recognized image section
-                document.getElementById('loadingAnimation').style.display = 'none';
-                document.getElementById('recognizedImageSection').style.display = 'block';
-                
-                // Show the "Choose File" button again
-                document.getElementById('fileInputContainer').style.display = 'block';
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                alert('Error: ' + textStatus);
-                // Hide loading animation and show file input container
-                document.getElementById('loadingAnimation').style.display = 'none';
-                document.getElementById('fileInputContainer').style.display = 'block';
-            });
-        }
-    </script>
     <footer class="mt-5 text-center">
         <!-- Footer content -->
         Design and Development by <a href="https://leivadaros.dev/" target="_blank">Paraskevas Leivadaros</a>
