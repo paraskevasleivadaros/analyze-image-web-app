@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Image Recognition App</title>
+    <title>Image Recognition Web App</title>
     <!-- Link to Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
@@ -40,9 +40,16 @@
             margin-top: 20px;
         }
 
-        /* New style to scale down the recognized image */
+        /* New style to scale down the recognized image container */
         .img-container {
-            max-width: 70%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        /* Style for the recognized image */
+        #imageDisplay {
+            max-width: 100%;
+            max-height: 300px;
             margin: 0 auto;
         }
     </style>
@@ -55,7 +62,7 @@
         <div class="text-center mb-3">
             <!-- Container for the file input with drag-and-drop functionality -->
             <div id="fileInputContainer" onclick="document.getElementById('imageFile').click()">
-                <span>Click to choose a file</span>
+                <span>Drag and drop an image here or click to choose a file</span>
                 <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display: none;"
                     onchange="recognizeImage()">
             </div>
@@ -82,7 +89,7 @@
         <div class="text-center mt-3">
             <!-- Link to source code on GitHub -->
             <a href="https://github.com/paraskevasleivadaros/analyze-image-web-app"
-                class="btn btn-outline-primary" target="_blank">Source Code</a>
+                class="btn btn-outline-primary" target="_blank">View Source Code</a>
         </div>
     </div>
 
