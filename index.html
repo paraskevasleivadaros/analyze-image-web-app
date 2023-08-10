@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         /* Add custom CSS styles here if needed */
+        #fileInputContainer {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
     </style>
 </head>
 
@@ -18,8 +25,11 @@
         
         <div class="row justify-content-center mb-3">
             <div class="col-12 col-md-8 col-lg-6">
-                <!-- Input for selecting an image file -->
-                <input type="file" class="form-control-file" id="imageFile" accept="image/*" onchange="recognizeImage()">
+                <!-- Container for the file input with drag-and-drop functionality -->
+                <div id="fileInputContainer" onclick="document.getElementById('imageFile').click()">
+                    <span>Drag and drop an image here or click to choose a file</span>
+                    <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display: none;" onchange="recognizeImage()">
+                </div>
             </div>
         </div>
         
