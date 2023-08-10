@@ -21,6 +21,10 @@
             display: none;
         }
         
+        #recognizedImageSection {
+            display: none;
+        }
+        
         .lds-ring {
             display: inline-block;
             position: relative;
@@ -66,7 +70,7 @@
             </div>
         </div>
         
-        <div class="row justify-content-center mb-5">
+        <div class="row justify-content-center mb-5" id="recognizedImageSection">
             <div class="col-12 col-md-8 col-lg-6">
                 <!-- Display recognized image -->
                 <img id="imageDisplay" class="img-fluid" alt="Recognized Image">
@@ -121,9 +125,9 @@
                 descriptionText += "<p><strong>Accuracy: </strong>" + (description.captions[0].confidence * 100).toFixed(2) + "%</p>";
                 $('#descriptionDisplay').html(descriptionText);
 
-                // Hide loading animation and show file input container
+                // Hide loading animation and show recognized image section
                 document.getElementById('loadingAnimation').style.display = 'none';
-                document.getElementById('fileInputContainer').style.display = 'block';
+                document.getElementById('recognizedImageSection').style.display = 'block';
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 alert('Error: ' + textStatus);
