@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Image Recognition Web App</title>
+    <title>Image Recognition App</title> <!-- Updated title -->
     <!-- Link to Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
@@ -61,11 +61,6 @@
             }
         }
         
-        /* Add margin to the source code button */
-        #sourceCodeButton {
-            margin-top: 10px;
-        }
-        
         /* Center the recognized image */
         #recognizedImageContainer {
             display: flex;
@@ -78,12 +73,12 @@
 
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-5">Image Recognition Web App</h1>
+        <h1 class="text-center mb-5">Image Recognition App</h1> <!-- Updated title -->
         
         <div class="row justify-content-center mb-3">
             <div class="col-12 col-md-8 col-lg-6">
                 <!-- Container for the file input with drag-and-drop functionality -->
-                <div id="fileInputContainer" onclick="document.getElementById('imageFile').click()">
+                <div id="fileInputContainer">
                     <span>Drag and drop an image here or click to choose a file</span>
                     <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display: none;" onchange="recognizeImage()">
                 </div>
@@ -116,7 +111,7 @@
                     <!-- Add margin to the source code button -->
                     <br>
                     <a href="https://github.com/paraskevasleivadaros/analyze-image-web-app"
-                        class="btn btn-outline-primary w-100" target="_blank" id="sourceCodeButton">View Source Code</a>
+                        class="btn btn-outline-primary w-100" target="_blank" id="sourceCodeButton">Source Code</a>
                 </footer>
             </div>
         </div>
@@ -154,7 +149,7 @@
                 var description = data.description;
                 var descriptionText = "<p><strong>Description: </strong>" + description.captions[0].text + "</p>";
                 descriptionText += "<p><strong>Tags: </strong>" + description.tags.join(", ") + "</p>";
-                descriptionText += "<p><strong>Accuracy: </strong>" + (description.captions[0].confidence * 100).toFixed(2) + "%</p>";
+                descriptionText += "<p><strong>Accuracy: </strong>" + (description.captions[0].confidence * 100).toFixed(2) + "%";
                 $('#descriptionDisplay').html(descriptionText);
 
                 // Hide loading animation and show recognized image section
