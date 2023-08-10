@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Image Recognition</title>
+    <title>Image Recognition App</title>
     <!-- Link to Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
@@ -57,7 +57,7 @@
 
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-5">Image Recognition</h1>
+        <h1 class="text-center mb-5">Image Recognition App</h1>
 
         <div class="text-center mb-3">
             <!-- Container for the file input with drag-and-drop functionality -->
@@ -66,6 +66,9 @@
                 <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display: none;"
                     onchange="recognizeImage()">
             </div>
+        </div>
+
+        <div class="text-center mb-5" id="recognizedImageSection" style="display: none;">
             <!-- Loading animation -->
             <div id="loadingAnimation" class="lds-ring">
                 <div></div>
@@ -73,9 +76,7 @@
                 <div></div>
                 <div></div>
             </div>
-        </div>
 
-        <div class="text-center mb-5" id="recognizedImageSection" style="display: none;">
             <!-- Display recognized image -->
             <div id="imageContainer" class="img-container">
                 <img id="imageDisplay" class="img-fluid" alt="Recognized Image">
@@ -104,7 +105,7 @@
 
             // Show loading animation and hide file input container
             document.getElementById('fileInputContainer').style.display = 'none';
-            document.getElementById('loadingAnimation').style.display = 'inline-block';
+            document.getElementById('loadingAnimation').style.display = 'block';
 
             $.ajax({
                 url: 'https://analyzeimage-leivadaros.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures=Description',
