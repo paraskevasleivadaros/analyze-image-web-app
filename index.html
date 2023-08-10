@@ -57,12 +57,12 @@
 
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-5">Image Recognition App</h1>
+        <h1 class="text-center mb-5">Image Recognition</h1>
 
         <div class="text-center mb-3">
             <!-- Container for the file input with drag-and-drop functionality -->
             <div id="fileInputContainer" onclick="document.getElementById('imageFile').click()">
-                <span>Click to choose a file</span>
+                <span>Drag and drop an image here or click to choose a file</span>
                 <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display: none;"
                     onchange="recognizeImage()">
             </div>
@@ -70,7 +70,7 @@
 
         <div class="text-center mb-5" id="recognizedImageSection" style="display: none;">
             <!-- Loading animation -->
-            <div id="loadingAnimation" class="lds-ring">
+            <div id="loadingAnimation" class="lds-ring" style="display: none;">
                 <div></div>
                 <div></div>
                 <div></div>
