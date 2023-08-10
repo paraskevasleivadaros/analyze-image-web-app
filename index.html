@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         /* Add custom CSS styles here if needed */
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
         #fileInputContainer {
             border: 2px dashed #ccc;
             padding: 20px;
@@ -128,6 +137,9 @@
                 // Hide loading animation and show recognized image section
                 document.getElementById('loadingAnimation').style.display = 'none';
                 document.getElementById('recognizedImageSection').style.display = 'block';
+                
+                // Show the "Choose File" button again
+                document.getElementById('fileInputContainer').style.display = 'block';
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 alert('Error: ' + textStatus);
