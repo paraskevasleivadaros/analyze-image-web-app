@@ -80,7 +80,7 @@
                 <!-- Container for the file input with drag-and-drop functionality -->
                 <div id="fileInputContainer">
                     <span>Drag and drop an image here or click to choose a file</span>
-                    <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display: none;" onchange="recognizeImage()">
+                    <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display: none;" onchange="recognizeImage()" ondragenter="handleDragEnter(event)" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
                 </div>
                 <!-- Loading animation -->
                 <div id="loadingAnimation" class="lds-ring"><div></div><div></div><div></div><div></div></div>
@@ -108,7 +108,8 @@
                 <!-- Link to source code on GitHub -->
                 <footer class="mt-5 text-center">
                     Design and Development by <a href="https://leivadaros.dev/" target="_blank">Paraskevas Leivadaros</a>
-                    <!-- Add margin to the source code button -->
+                    <!-- Add spacing -->
+                    <br>
                     <br>
                     <a href="https://github.com/paraskevasleivadaros/analyze-image-web-app"
                         class="btn btn-outline-primary w-100" target="_blank" id="sourceCodeButton">Source Code</a>
@@ -165,6 +166,21 @@
                 document.getElementById('loadingAnimation').style.display = 'none';
                 document.getElementById('fileInputContainer').style.display = 'block';
             });
+        }
+
+        // Drag and drop event handlers
+        function handleDragEnter(event) {
+            event.preventDefault();
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            document.getElementById('imageFile').files = event.dataTransfer.files;
+            recognizeImage();
         }
     </script>
 </body>
