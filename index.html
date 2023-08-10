@@ -19,11 +19,7 @@
         <div class="row justify-content-center mb-3">
             <div class="col-12 col-md-8 col-lg-6">
                 <!-- Input for selecting an image file -->
-                <input type="file" class="form-control-file" id="imageFile" accept="image/*">
-            </div>
-            <div class="col-12 col-md-2">
-                <!-- Button to initiate image recognition -->
-                <button class="btn btn-primary w-100" onclick="recognizeImage()">Recognize</button>
+                <input type="file" class="form-control-file" id="imageFile" accept="image/*" onchange="recognizeImage()">
             </div>
         </div>
         
