@@ -125,5 +125,9 @@ I hope that this tutorial has been helpful for you to understand how to use Azur
 
 ![a group of raccoons](https://user-images.githubusercontent.com/16403754/225921803-cd376bfb-58aa-48ca-8a37-eef337ae39f0.PNG)
 
+## 🛠️ Tech Stack
+[![Azure](https://skills.thijs.gg/icons?i=azure)](https://azure.microsoft.com/)
+[![HTML](https://skills.thijs.gg/icons?i=html)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+
 ## Copyright & License
 [MIT](https://github.com/paraskevasleivadaros/analyze-image-web-app/blob/master/LICENSE)
