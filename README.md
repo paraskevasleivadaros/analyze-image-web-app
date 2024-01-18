@@ -4,30 +4,38 @@ In this tutorial, you will learn how to create a simple web application that use
 
 ## Prerequisites
 Before we start, make sure you have the following:
-- An Azure account. If you don't have one, you can create a free account [here](https://azure.microsoft.com/free/).
-- A subscription key for the Azure Cognitive Services Computer Vision API. You can get one by following [these instructions](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account).
-- Basic knowledge of HTML, CSS, and JavaScript.
+- An Azure account. If you don't have one, you can create a free account here: https://azure.microsoft.com/free/
+- A subscription key for the Azure Cognitive Services Computer Vision API. You can get one by following these instructions: https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account
+- Basic knowledge of HTML, CSS, and JavaScript
 
 ## Step 1: Create an Azure Cognitive Services Resource
 To use Azure Cognitive Services, you need to create a resource in your Azure account. Follow these steps to create a Cognitive Services resource:
 
-Sign in to the Azure portal at https://portal.azure.com/.
-Click on the "Create a resource" button (the plus sign in the upper left corner).
-In the search bar, type "Cognitive Services".
-Select "Cognitive Services" from the search results and click the "Create" button.
-Fill in the required information for the resource. Choose "Computer Vision" as the resource type and select your preferred subscription and resource group.
-Click "Review + create" to review your settings, then click "Create" to create the resource.
+Sign in to the Azure portal at https://portal.azure.com/
+
+Click on the "Create a resource" button (the plus sign in the upper left corner)
+
+In the search bar, type "Cognitive Services"
+
+Select "Cognitive Services" from the search results and click the "Create" button
+
+Fill in the required information for the resource. Choose "Computer Vision" as the resource type and select your preferred subscription and resource group
+
+Click "Review + create" to review your settings, then click "Create" to create the resource
 
 ## Step 2: Get the Cognitive Services Endpoint and Subscription Key
 After you create the Cognitive Services resource, you need to get the endpoint and subscription key to use in the web application. Follow these steps to get the endpoint and subscription key:
 
-In the Azure portal, go to your Cognitive Services resource.
-Click on the "Keys and Endpoint" tab.
-Copy the "Key1" value.
-Copy the "Endpoint" value.
+In the Azure portal, go to your Cognitive Services resource
+
+Click on the "Keys and Endpoint" tab
+
+Copy the "Key1" value
+
+Copy the "Endpoint" value
 
 ## Step 3: Create the Web Application
-In this step, you will create the HTML and JavaScript code for the web application.
+In this step, you will create the HTML and JavaScript code for the web application
 
 Open your favorite text editor and create a new file called `index.html`. Copy the following code into the file:
 ```html
@@ -117,9 +125,9 @@ Make sure to replace `<your-cognitive-services-endpoint>` and `<your-cognitive-s
 Save the file and open it in your browser. That's it!
 
 ## Conclusion
-In this tutorial, we have seen how to create a simple image recognition web application using Azure Cognitive Services. We have used the Vision API to analyze an image and extract its description and tags.
+In this tutorial, we have seen how to create a simple image recognition web application using Azure Cognitive Services. We have used the Vision API to analyze an image and extract its description and tags
 
-This example can be extended to support more advanced scenarios, such as object detection or face recognition, using the other features provided by the Vision API or other Cognitive Services.
+This example can be extended to support more advanced scenarios, such as object detection or face recognition, using the other features provided by the Vision API or other Cognitive Services
 
 I hope that this tutorial has been helpful for you to understand how to use Azure Cognitive Services to build intelligent applications. If you have any questions or feedback, please let me know by opening a new issue.
 
