@@ -44,38 +44,98 @@ Open your favorite text editor and create a new file called `index.html`. Copy t
 
 <head>
     <meta charset="utf-8">
-    <title>Image Recognition Web Application using Azure Cognitive Services</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Image Recognition App</title>
+    <!-- Link to Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        /* Add custom CSS styles here if needed */
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #fileInputContainer {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
+
+        /* Rest of your existing styles... */
+
+        footer {
+            margin-top: 20px;
+        }
+
+        /* New style to scale down the recognized image container */
+        .img-container {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        /* Style for the recognized image */
+        #imageDisplay {
+            max-width: 100%;
+            max-height: 300px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-5">Image Recognition Web App</h1>
-        <div class="row justify-content-center mb-3">
-            <div class="col-12 col-md-8 col-lg-6">
-                <input type="file" class="form-control-file" id="imageFile" accept="image/*">
-            </div>
-            <div class="col-12 col-md-2">
-                <button class="btn btn-primary w-100" onclick="recognizeImage()">Recognize</button>
-            </div>
-        </div>
-        <div class="row justify-content-center mb-5">
-            <div class="col-12 col-md-8 col-lg-6">
-                <img id="imageDisplay" class="img-fluid">
+        <h1 class="text-center mb-5">Image Recognition</h1>
+
+        <div class="text-center mb-3">
+            <!-- Container for the file input with drag-and-drop functionality -->
+            <div id="fileInputContainer" onclick="document.getElementById('imageFile').click()">
+                <span>Click to choose a file</span>
+                <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display: none;"
+                    onchange="recognizeImage()">
             </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-6">
-                <div id="descriptionDisplay"></div>
+
+        <div class="text-center mb-5" id="recognizedImageSection" style="display: none;">
+            <!-- Loading animation -->
+            <div id="loadingAnimation" class="lds-ring" style="display: none;">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
-            <div class="col-12 col-md-2">
-                <a href="https://github.com/paraskevasleivadaros/analyze-image-web-app"
-                    class="btn btn-outline-primary w-100" target="_blank">Source code</a>
+
+            <!-- Display recognized image -->
+            <div id="imageContainer" class="img-container">
+                <img id="imageDisplay" class="img-fluid" alt="Recognized Image">
             </div>
+        </div>
+
+        <div class="text-center" id="descriptionDisplay" style="display: none;">
+            <!-- Display recognized image description -->
+        </div>
+
+        <div class="text-center mt-3">
+            <!-- Link to source code on GitHub -->
+            <a href="https://github.com/paraskevasleivadaros/analyze-image-web-app"
+                class="btn btn-outline-primary" target="_blank">Source Code</a>
         </div>
     </div>
 
+    <!-- Link to jQuery and Bootstrap JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script>
@@ -84,34 +144,51 @@ Open your favorite text editor and create a new file called `index.html`. Copy t
             var fileInput = document.getElementById('imageFile');
             formData.append('image', fileInput.files[0]);
 
+            // Show loading animation and hide file input container
+            document.getElementById('fileInputContainer').style.display = 'none';
+            document.getElementById('loadingAnimation').style.display = 'block';
+
             $.ajax({
-                url: 'https://<your-cognitive-services-endpoint>/vision/v3.2/analyze?visualFeatures=Description',
+                url: 'https://analyzeimage-leivadaros.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures=Description',
                 beforeSend: function (xhrObj) {
                     xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
-                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "<your-cognitive-services-subscription-key>");
+                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "a03ab615821a4f78ba4afce0e0c71ede");
                 },
                 type: "POST",
                 data: fileInput.files[0],
                 processData: false
             })
-                .done(function (data) {
-                    // Display the image
-                    var imageURL = URL.createObjectURL(fileInput.files[0]);
-                    $('#imageDisplay').attr('src', imageURL);
+            .done(function (data) {
+                // Display the image
+                var imageURL = URL.createObjectURL(fileInput.files[0]);
+                $('#imageDisplay').attr('src', imageURL);
 
-                    // Display the description
-                    var description = data.description;
-                    var descriptionText = "<p><strong>Description: </strong>" + description.captions[0].text + "</p>";
-                    descriptionText += "<p><strong>Tags: </strong>" + description.tags.join(", ") + "</p>";
-                    descriptionText += "<p><strong>Accuracy: </strong>" + (description.captions[0].confidence * 100).toFixed(2) + "%</p>";
-                    $('#descriptionDisplay').html(descriptionText);
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    alert('Error: ' + textStatus);
-                });
+                // Display the description
+                var description = data.description;
+                var descriptionText = "<p><strong>Description: </strong>" + description.captions[0].text + "</p>";
+                descriptionText += "<p><strong>Tags: </strong>" + description.tags.join(", ") + "</p>";
+                descriptionText += "<p><strong>Accuracy: </strong>" + (description.captions[0].confidence * 100).toFixed(2) + "%</p>";
+                $('#descriptionDisplay').html(descriptionText);
+
+                // Hide loading animation and show recognized image section
+                document.getElementById('loadingAnimation').style.display = 'none';
+                document.getElementById('recognizedImageSection').style.display = 'block';
+                document.getElementById('descriptionDisplay').style.display = 'block';
+
+                // Show the "Choose File" button again
+                document.getElementById('fileInputContainer').style.display = 'block';
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus);
+                // Hide loading animation and show file input container
+                document.getElementById('loadingAnimation').style.display = 'none';
+                document.getElementById('fileInputContainer').style.display = 'block';
+            });
         }
     </script>
     <footer class="mt-5 text-center">
+        <!-- Footer content -->
+        Design and Development by <a href="https://leivadaros.dev/" target="_blank">Paraskevas Leivadaros</a>
     </footer>
 </body>
 
