@@ -210,7 +210,7 @@ I hope that this tutorial has been helpful for you to understand how to use Azur
 
 ![a group of raccoons](https://user-images.githubusercontent.com/16403754/225921803-cd376bfb-58aa-48ca-8a37-eef337ae39f0.PNG)
 
-## 📐 System Design
+### 📐 System Design
 | Front-End Components                                  | Back-End Components                                  |
 |-------------------------------------------------------|------------------------------------------------------|
 | **HTML/CSS/Bootstrap**                                | **Azure Cognitive Services API**                     |
@@ -228,9 +228,9 @@ I hope that this tutorial has been helpful for you to understand how to use Azur
 
 ![analyze-image-web-app-system-design](https://github.com/paraskevasleivadaros/analyze-image-web-app/assets/16403754/feb44eb0-9467-4a0b-8fa7-c0c9d53761d8)
 
-## 🛠️ Tech Stack
+### 🛠️ Tech Stack
 [![Azure](https://skills.thijs.gg/icons?i=azure)](https://azure.microsoft.com/)
 [![HTML](https://skills.thijs.gg/icons?i=html)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 
-## Copyright & License
+### © Copyright & License
 [MIT](https://github.com/paraskevasleivadaros/analyze-image-web-app/blob/master/LICENSE)
