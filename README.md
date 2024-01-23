@@ -210,6 +210,24 @@ I hope that this tutorial has been helpful for you to understand how to use Azur
 
 ![a group of raccoons](https://user-images.githubusercontent.com/16403754/225921803-cd376bfb-58aa-48ca-8a37-eef337ae39f0.PNG)
 
+## 📐 System Design
+| Front-End Components                                  | Back-End Components                                  |
+|-------------------------------------------------------|------------------------------------------------------|
+| **HTML/CSS/Bootstrap**                                | **Azure Cognitive Services API**                     |
+| - Structure and layout of the web page                | - Handles image processing and analysis              |
+| - Styling and responsive design                       |                                                      |
+|                                                       |                                                      |
+| **JavaScript**                                        |                                                      |
+| - Handling image upload functionality (upload button) |                                                      |
+| - Making AJAX request to Azure API                    |                                                      | 
+| - Displaying results (image, description, tags)       |                                                      |
+|                                                       |                                                      |
+| **GitHub Pages Hosting**                              |                                                      |
+| - Static hosting for HTML, CSS, and JS                |                                                      |
+| - Utilizes GitHub's CDN for content delivery          |                                                      |
+
+![analyze-image-web-app-system-design](https://github.com/paraskevasleivadaros/analyze-image-web-app/assets/16403754/feb44eb0-9467-4a0b-8fa7-c0c9d53761d8)
+
 ## 🛠️ Tech Stack
 [![Azure](https://skills.thijs.gg/icons?i=azure)](https://azure.microsoft.com/)
 [![HTML](https://skills.thijs.gg/icons?i=html)](https://developer.mozilla.org/en-US/docs/Web/HTML)
