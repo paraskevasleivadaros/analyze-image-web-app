@@ -1,4 +1,4 @@
-# analyze-image-web-app
+# 🔍💻🖼️ analyze-image-web-app
 ### Image Recognition Web Application using Azure Cognitive Services
 In this tutorial, you will learn how to create a simple web application that uses Azure Cognitive Services to recognize and describe the content of an uploaded image. The web application will allow users to select an image file, use the Azure Cognitive Services API to analyze the image, and display the description and tags of the recognized content.
 
