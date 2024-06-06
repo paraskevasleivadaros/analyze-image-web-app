@@ -229,9 +229,9 @@ I hope that this tutorial has been helpful for you to understand how to use Azur
 ![analyze-image-web-app-system-design](https://github.com/paraskevasleivadaros/analyze-image-web-app/assets/16403754/feb44eb0-9467-4a0b-8fa7-c0c9d53761d8)
 
 ### 🛠️ Tech Stack
-[![Azure](https://skills.thijs.gg/icons?i=azure)](https://azure.microsoft.com/)
-[![HTML](https://skills.thijs.gg/icons?i=html)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![GitHub Actions](https://skills.thijs.gg/icons?i=githubactions)](https://github.com/features/actions)
+[![Azure](https://skillicons.dev/icons?i=azure)](https://azure.microsoft.com/)
+[![HTML](https://skillicons.dev/icons?i=html)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![GitHub Actions](https://skillicons.dev/icons?i=githubactions)](https://github.com/features/actions)
 
 ### © Copyright & License
 [MIT](https://github.com/paraskevasleivadaros/analyze-image-web-app/blob/master/LICENSE)
