@@ -1,38 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Analyze Image Web App</title>
-  <link rel="icon" type="image/x-icon" href="https://leivadaros.dev/pl-favicon.ico">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <style>
-    body, html {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background-color: #f4f4f4;
-    }
-    .container {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    #fileInputContainer {
-      border: 2px dashed #ccc;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      background-color: #f9f9f9;
-    }
-    footer { margin-top: 20px; }
-    .img-container { max-width: 300px; margin: 0 auto; }
-    #imageDisplay { max-width: 100%; max-height: 300px; margin: 0 auto; }
-  </style>
+  <link rel="icon" type="image/x-icon" href="https://leivadaros.dev/pl-favicon.ico" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 
 <body>
@@ -40,10 +14,9 @@
     <h1 class="text-center mb-5">🔍💻🖼️ Image Recognition</h1>
 
     <div class="text-center mb-3">
-      <div id="fileInputContainer" onclick="document.getElementById('imageFile').click()">
+      <div id="fileInputContainer">
         <span>Click to choose a file</span>
-        <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display:none;"
-               onchange="recognizeImage()">
+        <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display:none;">
       </div>
     </div>
 
@@ -65,69 +38,12 @@
     </div>
   </div>
 
+  <!-- jQuery + Bootstrap JS (jQuery required by your code) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script>
-    function recognizeImage() {
-      const fileInput = document.getElementById('imageFile');
-      if (!fileInput.files.length) return;
 
-      // Show loading animation and hide file input container
-      document.getElementById('fileInputContainer').style.display = 'none';
-      document.getElementById('loadingAnimation').style.display = 'block';
-
-      $.ajax({
-        url: 'https://analyzeimage-leivadaros.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures=Description',
-        beforeSend: function (xhrObj) {
-          xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
-          // Replace this placeholder with your actual subscription key
-          xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "your subscription key");
-        },
-        type: "POST",
-        data: fileInput.files[0],
-        processData: false
-      })
-      .done(function (data) {
-        // Display the image (no jQuery .attr)
-        const imageURL = URL.createObjectURL(fileInput.files[0]);
-        document.getElementById('imageDisplay').src = imageURL;
-
-        // Safely render the description without innerHTML/html()
-        const descRoot = document.getElementById('descriptionDisplay');
-        // Clear existing children safely
-        while (descRoot.firstChild) descRoot.removeChild(descRoot.firstChild);
-
-        const description = (data && data.description) ? data.description : {};
-        const captionObj = (description.captions && description.captions[0]) ? description.captions[0] : { text: 'N/A', confidence: 0 };
-        const tagsArr = Array.isArray(description.tags) ? description.tags : [];
-
-        // Helper to create a <p><strong>Label:</strong> value</p> safely
-        function addLine(label, valueText) {
-          const p = document.createElement('p');
-          const strong = document.createElement('strong');
-          strong.textContent = label + ': ';
-          p.appendChild(strong);
-          p.appendChild(document.createTextNode(valueText));
-          descRoot.appendChild(p);
-        }
-
-        addLine('Description', String(captionObj.text || 'N/A'));
-        addLine('Tags', tagsArr.length ? tagsArr.join(', ') : '—');
-        addLine('Accuracy', ((Number(captionObj.confidence) || 0) * 100).toFixed(2) + '%');
-
-        // Update visibility
-        document.getElementById('loadingAnimation').style.display = 'none';
-        document.getElementById('recognizedImageSection').style.display = 'block';
-        document.getElementById('descriptionDisplay').style.display = 'block';
-        document.getElementById('fileInputContainer').style.display = 'block';
-      })
-      .fail(function () {
-        alert('Error: request failed');
-        document.getElementById('loadingAnimation').style.display = 'none';
-        document.getElementById('fileInputContainer').style.display = 'block';
-      });
-    }
-  </script>
+  <!-- Your app logic -->
+  <script src="./app.js"></script>
 
   <footer class="mt-5 text-center">
     Design and Development by <a href="https://leivadaros.dev/" target="_blank">Paraskevas Leivadaros</a>
