@@ -91,11 +91,11 @@ Enable in **Settings → Pages** → Build & deployment: **GitHub Actions**.
 ![a group of raccoons](img/racoon-image-recognition.png)
 
 ## 📐 System Design
-| Front-End Components                                  | Back-End Components                 |
-|-------------------------------------------------------|-------------------------------------|
-| **HTML/CSS/Bootstrap**                                | **Azure AI Vision API**             |
-| **JavaScript (app.js)**                               | **(Recommended) Backend proxy**     |
-| **GitHub Pages Hosting**                              | **Budget + Automation (optional)**  |
+| Front-End Components | Back-End Components            |
+|----------------------|--------------------------------|
+| HTML/CSS/Bootstrap   | Azure AI Vision API            |
+| JavaScript (app.js)  | (Recommended) Backend proxy    |
+| GitHub Pages Hosting | Budget + Automation (optional) |
 
 ![analyze-image-web-app-system-design](img/architecture-image-recognition.png)
 
