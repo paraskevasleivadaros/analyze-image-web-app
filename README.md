@@ -1,237 +1,108 @@
 # 🔍💻🖼️ analyze-image-web-app
 ### Image Recognition Web Application using Azure Cognitive Services
-In this tutorial, you will learn how to create a simple web application that uses Azure Cognitive Services to recognize and describe the content of an uploaded image. The web application will allow users to select an image file, use the Azure Cognitive Services API to analyze the image, and display the description and tags of the recognized content.
+This simple web app lets a user select an image, sends it to **Azure AI Vision** for analysis, and displays a caption, tags, and confidence.
+
+> **Security note:** Never commit real API keys. This repo uses a **placeholder** string for the subscription key. For production, call Azure from a **backend proxy** so the browser never sees secrets.
 
 ## Prerequisites
-Before we start, make sure you have the following:
-- An Azure account. If you don't have one, you can create a free account here: https://azure.microsoft.com/free/
-- A subscription key for the Azure Cognitive Services Computer Vision API. You can get one by following these instructions: https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account
-- Basic knowledge of HTML, CSS, and JavaScript
+- An Azure subscription (free tier is fine).
+- An **Azure AI Vision** (Cognitive Services) resource:
+  - You’ll need its **endpoint** and a **subscription key** (for quick tests), or set up **Azure AD (managed identity)** for a backend proxy.
+- Basic HTML/CSS/JS familiarity.
 
-## Step 1: Create an Azure Cognitive Services Resource
-To use Azure Cognitive Services, you need to create a resource in your Azure account. Follow these steps to create a Cognitive Services resource:
+## Create an Azure AI Vision resource
+1. Go to the Azure portal and create an **Azure AI services** (Vision) resource (formerly “Computer Vision” / “Cognitive Services”).
+2. After deployment, open the resource → **Keys and Endpoint** and note:
+   - **Endpoint** (e.g., `https://<your-name>.cognitiveservices.azure.com`)
+   - **Key1/Key2** (for quick testing only; don’t ship in frontend code)
 
-Sign in to the Azure portal at https://portal.azure.com/
-
-Click on the "Create a resource" button (the plus sign in the upper left corner)
-
-In the search bar, type "Cognitive Services"
-
-Select "Cognitive Services" from the search results and click the "Create" button
-
-Fill in the required information for the resource. Choose "Computer Vision" as the resource type and select your preferred subscription and resource group
-
-Click "Review + create" to review your settings, then click "Create" to create the resource
-
-## Step 2: Get the Cognitive Services Endpoint and Subscription Key
-After you create the Cognitive Services resource, you need to get the endpoint and subscription key to use in the web application. Follow these steps to get the endpoint and subscription key:
-
-In the Azure portal, go to your Cognitive Services resource
-
-Click on the "Keys and Endpoint" tab
-
-Copy the "Key1" value
-
-Copy the "Endpoint" value
-
-## Step 3: Create the Web Application
-In this step, you will create the HTML and JavaScript code for the web application
-
-Open your favorite text editor and create a new file called `index.html`. Copy the following code into the file:
-```html
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Image Recognition App</title>
-    <!-- Link to Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <style>
-        /* Add custom CSS styles here if needed */
-        body, html {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: #f4f4f4;
-        }
-
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        #fileInputContainer {
-            border: 2px dashed #ccc;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            background-color: #f9f9f9;
-        }
-
-        /* Rest of your existing styles... */
-
-        footer {
-            margin-top: 20px;
-        }
-
-        /* New style to scale down the recognized image container */
-        .img-container {
-            max-width: 300px;
-            margin: 0 auto;
-        }
-
-        /* Style for the recognized image */
-        #imageDisplay {
-            max-width: 100%;
-            max-height: 300px;
-            margin: 0 auto;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-5">Image Recognition</h1>
-
-        <div class="text-center mb-3">
-            <!-- Container for the file input with drag-and-drop functionality -->
-            <div id="fileInputContainer" onclick="document.getElementById('imageFile').click()">
-                <span>Click to choose a file</span>
-                <input type="file" class="form-control-file" id="imageFile" accept="image/*" style="display: none;"
-                    onchange="recognizeImage()">
-            </div>
-        </div>
-
-        <div class="text-center mb-5" id="recognizedImageSection" style="display: none;">
-            <!-- Loading animation -->
-            <div id="loadingAnimation" class="lds-ring" style="display: none;">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-
-            <!-- Display recognized image -->
-            <div id="imageContainer" class="img-container">
-                <img id="imageDisplay" class="img-fluid" alt="Recognized Image">
-            </div>
-        </div>
-
-        <div class="text-center" id="descriptionDisplay" style="display: none;">
-            <!-- Display recognized image description -->
-        </div>
-
-        <div class="text-center mt-3">
-            <!-- Link to source code on GitHub -->
-            <a href="https://github.com/paraskevasleivadaros/analyze-image-web-app"
-                class="btn btn-outline-primary" target="_blank">Source Code</a>
-        </div>
-    </div>
-
-    <!-- Link to jQuery and Bootstrap JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script>
-        function recognizeImage() {
-            var formData = new FormData();
-            var fileInput = document.getElementById('imageFile');
-            formData.append('image', fileInput.files[0]);
-
-            // Show loading animation and hide file input container
-            document.getElementById('fileInputContainer').style.display = 'none';
-            document.getElementById('loadingAnimation').style.display = 'block';
-
-            $.ajax({
-                url: 'https://analyzeimage-leivadaros.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures=Description',
-                beforeSend: function (xhrObj) {
-                    xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
-                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "a03ab615821a4f78ba4afce0e0c71ede");
-                },
-                type: "POST",
-                data: fileInput.files[0],
-                processData: false
-            })
-            .done(function (data) {
-                // Display the image
-                var imageURL = URL.createObjectURL(fileInput.files[0]);
-                $('#imageDisplay').attr('src', imageURL);
-
-                // Display the description
-                var description = data.description;
-                var descriptionText = "<p><strong>Description: </strong>" + description.captions[0].text + "</p>";
-                descriptionText += "<p><strong>Tags: </strong>" + description.tags.join(", ") + "</p>";
-                descriptionText += "<p><strong>Accuracy: </strong>" + (description.captions[0].confidence * 100).toFixed(2) + "%</p>";
-                $('#descriptionDisplay').html(descriptionText);
-
-                // Hide loading animation and show recognized image section
-                document.getElementById('loadingAnimation').style.display = 'none';
-                document.getElementById('recognizedImageSection').style.display = 'block';
-                document.getElementById('descriptionDisplay').style.display = 'block';
-
-                // Show the "Choose File" button again
-                document.getElementById('fileInputContainer').style.display = 'block';
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                alert('Error: ' + textStatus);
-                // Hide loading animation and show file input container
-                document.getElementById('loadingAnimation').style.display = 'none';
-                document.getElementById('fileInputContainer').style.display = 'block';
-            });
-        }
-    </script>
-    <footer class="mt-5 text-center">
-        <!-- Footer content -->
-        Design and Development by <a href="https://leivadaros.dev/" target="_blank">Paraskevas Leivadaros</a>
-    </footer>
-</body>
-
-</html>
+## Project structure (static site)
+This repo serves static files from **`docs/`** (published by GitHub Pages):
+```
+docs/
+├─ index.html
+├─ styles.css
+└─ app.js
 ```
 
-In this code, we have an HTML page with a simple form consisting of an input field for selecting an image file, a button to start the recognition process, and two empty divs for displaying the image and its analysis. The `script` tag at the bottom of the page contains the JavaScript code that will handle the image recognition.
+### `docs/index.html`
+- Links Bootstrap, your stylesheet, and `app.js`.
+- Provides the UI for file upload, result image, and description area.
 
-Make sure to replace `<your-cognitive-services-endpoint>` and `<your-cognitive-services-subscription-key>` with your own values.
+### `docs/styles.css`
+- Page layout and styling (container, dashed drop zone, etc).
 
-Save the file and open it in your browser. That's it!
+### `docs/app.js`
+- Handles file selection, API call, and result rendering.
+- Contains a **placeholder** subscription key:
+  ```js
+  xhrObj.setRequestHeader('Ocp-Apim-Subscription-Key', 'your subscription key');
+  ```
+  Replace locally for testing only. **Do not commit a real key.**
 
-## Conclusion
-In this tutorial, we have seen how to create a simple image recognition web application using Azure Cognitive Services. We have used the Vision API to analyze an image and extract its description and tags
+## Calling the API
+### Option A — Quick local test
+Temporarily replace the placeholder in `app.js` with your real key:
+```js
+xhrObj.setRequestHeader('Ocp-Apim-Subscription-Key', 'REPLACE_ME_LOCALLY');
+```
+> Don’t commit this change. Local testing only.
 
-This example can be extended to support more advanced scenarios, such as object detection or face recognition, using the other features provided by the Vision API or other Cognitive Services
+### Option B — Backend proxy (recommended)
+Deploy a small **Azure Function / Logic App / API** that:
+- Accepts the image,
+- Calls Azure Vision using a secret (App Settings or Managed Identity),
+- Returns JSON to the browser.
 
-I hope that this tutorial has been helpful for you to understand how to use Azure Cognitive Services to build intelligent applications. If you have any questions or feedback, please let me know by opening a new issue.
+Your frontend then points to the proxy URL instead of Azure directly.
 
-![a group of raccoons](https://user-images.githubusercontent.com/16403754/225921803-cd376bfb-58aa-48ca-8a37-eef337ae39f0.PNG)
+## The request
+```
+POST {ENDPOINT}/vision/v3.2/analyze?visualFeatures=Description
+Content-Type: application/octet-stream
+Ocp-Apim-Subscription-Key: <key>
+```
 
-### 📐 System Design
-| Front-End Components                                  | Back-End Components                                  |
-|-------------------------------------------------------|------------------------------------------------------|
-| **HTML/CSS/Bootstrap**                                | **Azure Cognitive Services API**                     |
-| - Structure and layout of the web page                | - Handles image processing and analysis              |
-| - Styling and responsive design                       |                                                      |
-|                                                       |                                                      |
-| **JavaScript**                                        |                                                      |
-| - Handling image upload functionality (upload button) |                                                      |
-| - Making AJAX request to Azure API                    |                                                      | 
-| - Displaying results (image, description, tags)       |                                                      |
-|                                                       |                                                      |
-| **GitHub Pages Hosting**                              |                                                      |
-| - Static hosting for HTML, CSS, and JS                |                                                      |
-| - Utilizes GitHub's CDN for content delivery          |                                                      |
+Body: raw image bytes.  
+Response: JSON with `description.captions[0].text`, `description.tags`, etc.
 
-![analyze-image-web-app-system-design](https://github.com/paraskevasleivadaros/analyze-image-web-app/assets/16403754/feb44eb0-9467-4a0b-8fa7-c0c9d53761d8)
+## Run locally
+Open `docs/index.html` in a browser (or host `docs/` with any static server).  
+Replace the placeholder key only for local tests.
 
-### 🛠️ Tech Stack
+## Deploy with GitHub Pages
+The repo includes a workflow to publish the `docs/` folder:
+
+- Workflow: **Deploy static content to Pages**
+- Uses:
+  - `actions/checkout@v4`
+  - `actions/configure-pages@v5`
+  - `actions/upload-pages-artifact@v3`
+  - `actions/deploy-pages@v4`
+
+Enable in **Settings → Pages** → Build & deployment: **GitHub Actions**.
+
+## Code scanning (CodeQL)
+- You’re using a custom CodeQL workflow (`github/codeql-action@v3`, `checkout@v4`).
+- Default setup must be disabled (to avoid SARIF conflicts).
+- CodeQL scans `docs/app.js` (moved from inline `<script>`).
+
+## Example screenshot
+![a group of raccoons](image/racoon-image-recognition.png)
+
+## 📐 System Design
+| Front-End Components                                  | Back-End Components                 |
+|-------------------------------------------------------|-------------------------------------|
+| **HTML/CSS/Bootstrap**                                | **Azure AI Vision API**             |
+| **JavaScript (app.js)**                               | **(Recommended) Backend proxy**     |
+| **GitHub Pages Hosting**                              | **Budget + Automation (optional)**  |
+
+![analyze-image-web-app-system-design](image/architecture-image-recognition.png)
+
+## 🛠️ Tech Stack
 [![Azure](https://skillicons.dev/icons?i=azure)](https://azure.microsoft.com/)
 [![HTML](https://skillicons.dev/icons?i=html)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![GitHub Actions](https://skillicons.dev/icons?i=githubactions)](https://github.com/features/actions)
 
-### © Copyright & License
+## © Copyright & License
 [MIT](https://github.com/paraskevasleivadaros/analyze-image-web-app/blob/master/LICENSE)
