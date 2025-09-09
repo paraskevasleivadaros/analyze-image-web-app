@@ -88,7 +88,7 @@ Enable in **Settings → Pages** → Build & deployment: **GitHub Actions**.
 - CodeQL scans `docs/app.js` (moved from inline `<script>`).
 
 ## Example screenshot
-![a group of raccoons](image/racoon-image-recognition.png)
+![a group of raccoons](img/racoon-image-recognition.png)
 
 ## 📐 System Design
 | Front-End Components                                  | Back-End Components                 |
@@ -97,7 +97,7 @@ Enable in **Settings → Pages** → Build & deployment: **GitHub Actions**.
 | **JavaScript (app.js)**                               | **(Recommended) Backend proxy**     |
 | **GitHub Pages Hosting**                              | **Budget + Automation (optional)**  |
 
-![analyze-image-web-app-system-design](image/architecture-image-recognition.png)
+![analyze-image-web-app-system-design](img/architecture-image-recognition.png)
 
 ## 🛠️ Tech Stack
 [![Azure](https://skillicons.dev/icons?i=azure)](https://azure.microsoft.com/)
